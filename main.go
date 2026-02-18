@@ -52,6 +52,8 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		controllers.JsonController(w, r)
 	case "/register":
 		controllers.RegisterController(w, r)
+	case "/login":
+		controllers.LoginController(w, r)
 	default:
 		notFoundHandler(w, r)
 	}
