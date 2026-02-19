@@ -5,7 +5,7 @@ import (
 	// "fmt"
 	"net/http"
 
-	"github.com/hrrydgls/lego/database"
+	// "github.com/hrrydgls/lego/database"
 	"github.com/hrrydgls/lego/models/requests"
 	"github.com/hrrydgls/lego/models/responses"
 	"github.com/hrrydgls/lego/models/responses/errors"
