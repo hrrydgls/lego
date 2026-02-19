@@ -8,6 +8,7 @@ import (
 
 	"github.com/hrrydgls/lego/controllers"
 	"github.com/hrrydgls/lego/models/responses"
+	// "github.com/hrrydgls/lego/services/auth"
 )
 
 func aboutHandler (w http.ResponseWriter, _ *http.Request) {
@@ -54,6 +55,8 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		controllers.RegisterController(w, r)
 	case "/login":
 		controllers.LoginController(w, r)
+
+		// auth.Test()
 	default:
 		notFoundHandler(w, r)
 	}
