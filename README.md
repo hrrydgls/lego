@@ -46,6 +46,7 @@ go get github.com/golang-jwt/jwt/v5
 - [ ] More info in the token, like name and email 
 - [ ] Better logging
 - [ ] Metrics
+- [ ] Use a package for validation
 
 
 ## More general suggestion
