@@ -23,7 +23,7 @@ docker run -v $PWD/database/migrations:/migrations \
   -database "postgres://postgres:postgres@localhost:5432/go?sslmode=disable" \
   up
 ```
-## Hot reloading 
+### Hot reloading 
 
 I use [Air](https://github.com/air-verse/air) for live reloading. So you just need to run `air` in dev env to run it...
 
@@ -34,3 +34,16 @@ I wanna use JWT tokens for authentication:
 ```bash
 go get github.com/golang-jwt/jwt/v5
 ```
+
+## Todo 
+
+- [ ] Refactor a bit
+- [ ] Create a middleware for auth
+- [ ] Handle exceptions better
+- [ ] Write some tests
+
+## More general suggestion
+
+### Go playground
+
+If you wanna test sth on the fly, you can do it here: [https://go.dev/play/](https://go.dev/play/)

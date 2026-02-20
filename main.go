@@ -55,6 +55,8 @@ func mainHandler(w http.ResponseWriter, r *http.Request) {
 		controllers.RegisterController(w, r)
 	case "/login":
 		controllers.LoginController(w, r)
+	case "/me":
+		controllers.MeController(w, r)
 
 		// auth.Test()
 	default:
