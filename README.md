@@ -23,6 +23,9 @@ docker run -v $PWD/database/migrations:/migrations \
   -database "postgres://postgres:postgres@localhost:5432/go?sslmode=disable" \
   up
 ```
+## Hot reloading 
+
+I use [Air](https://github.com/air-verse/air) for live reloading. So you just need to run `air` in dev env to run it...
 
 ## JWT auth 
 
