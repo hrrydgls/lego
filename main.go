@@ -1,13 +1,14 @@
 package main
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	"fmt"
 	"log/slog"
 	"net/http"
 
 	"github.com/hrrydgls/lego/controllers"
-	"github.com/hrrydgls/lego/models/responses"
+	// "github.com/hrrydgls/lego/models/responses"
+	"github.com/hrrydgls/lego/services"
 	// "github.com/hrrydgls/lego/services/auth"
 )
 
@@ -28,12 +29,7 @@ func aboutHandler (w http.ResponseWriter, _ *http.Request) {
 }
 
 func notFoundHandler (w http.ResponseWriter, r *http.Request) {
-	notFoundResponse := responses.NotFound {
-		Message: "Route not found!",
-		Route: r.URL.Path,
-		Method: r.Method,
-	}
-	json.NewEncoder(w).Encode(notFoundResponse)
+	services.ReturnResponse(w, services.NewNotFoundResponse())
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {

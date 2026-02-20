@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"encoding/json"
+
 	// "fmt"
 
 	// "io"
@@ -10,9 +11,10 @@ import (
 	"net/http"
 
 	"github.com/hrrydgls/lego/database"
+	"github.com/hrrydgls/lego/services"
 	// "github.com/hrrydgls/lego/models"
 	"github.com/hrrydgls/lego/models/requests"
-	"github.com/hrrydgls/lego/models/responses"
+	// "github.com/hrrydgls/lego/models/responses"
 )
 
 func RegisterController(w http.ResponseWriter, r *http.Request) {
@@ -26,12 +28,7 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 		json.NewDecoder(r.Body).Decode(&data)
 
 		if data.Name == "" || data.Email == "" || data.Password == "" {
-			w.WriteHeader(http.StatusBadRequest)
-			response := map[string]string{
-				"message": "Validation error!",
-			}
-
-			json.NewEncoder(w).Encode(response)
+			services.ReturnResponse(w, services.NewInvalidInputResponse("All fields are required!", nil))
 			return
 		}
 		db := database.DB()
@@ -59,37 +56,27 @@ func RegisterController(w http.ResponseWriter, r *http.Request) {
 
 				if err != nil {
 					slog.Error("Error while creating the new user", "err", err)
-					message = "Error while creating the new user!"
+					services.ReturnResponse(w, services.NewServerErrorResponse())
+					return
 				} else {
-					message = "We created a new user with this email!"
+					services.ReturnResponse(w, services.NewSuccessResponse("We created a new user with this email!", data))
+					return
 				}
 
 			} else {
 				slog.Error("Error in checking the user", "err", err)
-				message = "Unkown error! check the logs..."
+				services.ReturnResponse(w, services.NewServerErrorResponse())
+				return
 			}
 		} else {
 			message = "This email is already exist!"
+			services.ReturnResponse(w, services.NewInvalidInputResponse(message, nil))
+			return
 		}
-
-		json.NewEncoder(w).Encode(map[string]string{
-			"message": message,
-		})
-		return
 
 	} else {
-		route := r.URL.Path
-		method := r.Method
-		response := responses.NotFound{
-			Message: "Method is not supported!",
-			Route:   route,
-			Method:  method,
-		}
+		services.ReturnResponse(w, services.NewMethodNotSupportedResponse())
 
-		w.Header().Set("Accept", "application/json")
-		w.WriteHeader(http.StatusMethodNotAllowed)
-
-		json.NewEncoder(w).Encode(response)
 		return
 	}
 

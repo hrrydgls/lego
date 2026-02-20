@@ -37,13 +37,15 @@ go get github.com/golang-jwt/jwt/v5
 
 ## Todo 
 
-- [ ] Refactor a bit
+- [x] Handle exceptions better
+- [x] Refactor a bit
 - [ ] Create a middleware for auth
-- [ ] Handle exceptions better
 - [ ] Write some tests
 - [ ] Use a package for env vars
 - [ ] Encrypt passwords
 - [ ] More info in the token, like name and email 
+- [ ] Better logging
+- [ ] Metrics
 
 
 ## More general suggestion

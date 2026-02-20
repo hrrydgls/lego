@@ -11,13 +11,14 @@ import (
 	"github.com/hrrydgls/lego/database"
 	"github.com/hrrydgls/lego/models/requests"
 	"github.com/hrrydgls/lego/models/responses"
-	"github.com/hrrydgls/lego/models/responses/errors"
+	// "github.com/hrrydgls/lego/models/responses/errors"
+	"github.com/hrrydgls/lego/services"
 	"github.com/hrrydgls/lego/services/auth"
 )
 
-type JsonResponse struct {
-	Message string `json:"message"`
-}
+// type JsonResponse struct {
+// 	Message string `json:"message"`
+// }
 
 func LoginController(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("Hi from login!")
@@ -42,13 +43,9 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 
 	// check if the request is post
 	if r.Method != http.MethodPost {
-		response := responses.NotFound{
-			Message: "Method is not supported!",
-			Route: r.URL.Path,
-			Method: r.Method,
-		}
 
-		json.NewEncoder(w).Encode(response)
+		services.ReturnResponse(w, services.NewMethodNotSupportedResponse())
+
 		return
 	}
 
@@ -57,7 +54,7 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&data)
 
 	if data.Email == "" || data.Password == "" {
-		json.NewEncoder(w).Encode(errors.NewValidationError())
+		services.ReturnResponse(w, services.NewInvalidInputResponse("Both email and password are required!", nil))
 		return
 	}
 
@@ -76,19 +73,13 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	err := row.Scan(&id, &name, &email, &password)
 
 	if (err != nil) {
-		message := ""
 		if err == sql.ErrNoRows {
-			message = "user not found!"
+			services.ReturnResponse(w, services.NewInvalidInputResponse("User not found!", nil))
+			return
 		} else {
-			message = "sth went wrong!"
+			services.ReturnResponse(w, services.NewServerErrorResponse())
+			return
 		}
-		
-		response := map[string]string {
-			"message": message,
-		}
-
-		json.NewEncoder(w).Encode(response)
-		return
 	}
 
 
@@ -102,11 +93,12 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 			Token: token,
 		}
 
-		json.NewEncoder(w).Encode(loginResponse)
+		// json.NewEncoder(w).Encode(loginResponse)
+
+		services.ReturnResponse(w, services.NewSuccessResponse("Logged in successfuly!", loginResponse))
 
 	} else {
-		json.NewEncoder(w).Encode(errors.NewValidationError())
-		return
+		services.ReturnResponse(w, services.NewInvalidInputResponse("Invalid password!", nil))
 	}
 
 

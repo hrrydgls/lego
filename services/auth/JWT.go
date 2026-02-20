@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -15,11 +14,6 @@ type Claims struct {
 
 var JwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
-func Test() {
-	token, _ := GenerateToken(1)
-
-	fmt.Printf("JWT Secret is: %s\n", token)
-}
 
 func GenerateToken(user_id uint)(string, error) {
 	claims := Claims{
