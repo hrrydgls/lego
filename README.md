@@ -53,6 +53,7 @@ go get github.com/golang-jwt/jwt/v5
 - [ ] Better logging
 - [ ] Metrics
 - [ ] Use a package for validation
+- [ ] Rate limiter for login and register
 
 
 ## More general suggestion

@@ -8,8 +8,6 @@ import (
 	"github.com/hrrydgls/lego/controllers"
 )
 
-
-
 func main() {
 	r := chi.NewRouter()
 
@@ -22,7 +20,6 @@ func main() {
 	r.Get("/me", controllers.MeController)
 
 	r.NotFound(controllers.NotFoundHandler)
-
 
 	slog.Info("Listenning to port 8000!")
 	http.ListenAndServe(":8000", r)
