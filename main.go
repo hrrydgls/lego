@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/hrrydgls/lego/controllers"
 	// "github.com/hrrydgls/lego/models/responses"
 	"github.com/hrrydgls/lego/services"
@@ -32,39 +33,20 @@ func notFoundHandler (w http.ResponseWriter, r *http.Request) {
 	services.ReturnResponse(w, services.NewNotFoundResponse())
 }
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
-
-	path := r.URL.Path
-
-	slog.Info("New request:", "path", path)
-
-	switch path {
-	case "/":
-		controllers.HomeHandler(w, r)
-	case "/health":
-		controllers.HealthHandler(w, r)
-	case "/about":
-		aboutHandler(w, r)
-	case "/json":
-		controllers.JsonController(w, r)
-	case "/register":
-		controllers.RegisterController(w, r)
-	case "/login":
-		controllers.LoginController(w, r)
-	case "/me":
-		controllers.MeController(w, r)
-
-		// auth.Test()
-	default:
-		notFoundHandler(w, r)
-	}
-
-
-}
-
 func main() {
-	slog.Info("App started...")
-	http.HandleFunc("/", mainHandler)
+	r := chi.NewRouter()
+
+	r.Get("/", controllers.HomeHandler)
+	r.Get("/health", controllers.HealthHandler)
+	r.Get("/about", aboutHandler)
+	r.Get("/json", controllers.JsonController)
+	r.Post("/register", controllers.RegisterController)
+	r.Post("/login", controllers.LoginController)
+	r.Get("/me", controllers.MeController)
+
+	r.NotFound(notFoundHandler)
+
+
 	slog.Info("Listenning to port 8000!")
-	http.ListenAndServe(":8000", nil)
+	http.ListenAndServe(":8000", r)
 }

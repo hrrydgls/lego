@@ -27,6 +27,11 @@ docker run -v $PWD/database/migrations:/migrations \
 
 I use [Air](https://github.com/air-verse/air) for live reloading. So you just need to run `air` in dev env to run it...
 
+## Routing
+
+I am using [chi](https://github.com/go-chi/chi) for routing. 
+
+
 ## JWT auth 
 
 I wanna use JWT tokens for authentication:
@@ -39,6 +44,7 @@ go get github.com/golang-jwt/jwt/v5
 
 - [x] Handle exceptions better
 - [x] Refactor a bit
+- [x] Use a package for routing 
 - [ ] Create a middleware for auth
 - [ ] Write some tests
 - [ ] Use a package for env vars
